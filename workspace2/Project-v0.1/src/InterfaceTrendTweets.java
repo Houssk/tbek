@@ -85,6 +85,70 @@ public class InterfaceTrendTweets {
        element_formate += "</br></font></html>";
        return element_formate;
 	}
+    /**
+     * @author Nader Ben Abdeljelil
+     * @author Houssam Karrach
+     * @version 0.1, ecrit le 11 Novembre 2014
+     * 
+     * Methode qui decoupe un titre de news en blocs de 40 caracteres.
+     * Cette methode prend en compte les emplacements des espaces du message 
+     * afin de ne pas couper en plein milieu d'un mot.
+     * 
+     * @param title   String  C'est le titre de l'atricle
+     * @param source    String  C'est le source de l'article
+     * @param date   String  C'est la date de l'article
+     * 
+     * @return  String      Elle renvoie un message au format html,  qui 
+     *                      permet de visualiser de maniere correcte les 
+     *                      news
+     */
+public static String decouperNews(String title,String source,String date) {
+		
+        // Utilise le html pour rendre les news presentables. 
+        String element_formate = "<html><i><font color=blue>";
+       
+       // oblige de couper les titres sur 40 caracteres, sinon
+       // il n'y a pas de line wrapping et l'on est oblige d'utiliser
+       // la scrollbar horizontale pour voir l'integralite du news
+       
+       //on parcourt l'integralite du titre, 40 caracteres par 40 caracteres
+       for (int start = 0; start < title.length(); start += 40)
+       {
+           // il reste plus de 40 caracteres
+           if (start < title.length() - 40)
+           {
+                // si l'on ne coupe pas au milieu d'un mot, alors on peut decouper
+                if(title.charAt(start+39)==' ')
+                {
+                    element_formate += title.substring(start,start+40) + "</br><br>";	
+                }
+                
+                // sinon on revient au denier espace avant la coupure
+                else
+                {
+                    int pos=1;
+                    while(title.charAt(start+39-pos)!=' ')
+                    {
+                        pos++;
+                    }
+               	
+                    element_formate += title.substring(start,start+40-pos) + "</br><br>";
+                    start -= pos; // on reprend au niveau de cette coupure
+                }
+           	
+           }
+            
+            // si il reste moins de 40 caracteres, alors on decoupe 
+            // jusqu'a la fin du titre
+           else
+           {
+               element_formate += title.substring(start);
+           }
+         }
+       
+       element_formate += "</i><br>"+source+"</br><br>"+date+"</br></font></html>";
+       return element_formate;
+	}
 	
 /**
  * @author Julien Tissier
@@ -146,6 +210,7 @@ public class InterfaceTrendTweets {
         final DefaultListModel listeModel_tendances = new DefaultListModel();
 		final JList liste_tendances = new JList(listeModel_tendances);
 		selection_tendances.setViewportView(liste_tendances);
+		selection_tendances.setPreferredSize(new Dimension(300,260));
         
         // remplit la liste avec les tendances
         for (String tendance : lesTendances)
@@ -160,12 +225,14 @@ public class InterfaceTrendTweets {
         final DefaultListModel listeModel_tweets = new DefaultListModel();
         final JList liste_tweets = new JList(listeModel_tweets);
         selection_tweets.setViewportView(liste_tweets);
-        //selection_tweets.setSize(new Dimension(300,250));
+        selection_tweets.setPreferredSize(new Dimension(350,260));
         
         JScrollPane selection_news = new JScrollPane();
         final DefaultListModel listeModel_news = new DefaultListModel();
         final JList liste_news = new JList(listeModel_news);
         selection_news.setViewportView(liste_news);
+        selection_news.setPreferredSize(new Dimension(350,260));
+        
 		
         
         
@@ -211,8 +278,7 @@ public class InterfaceTrendTweets {
                         String date = ((Vector<String>) lesNews.get(index)).get(i+2);
                         String newDate=date.substring(0, 10)+" à "+ date.substring(11, 19);
                        // Utilise le html pour rendre les tweets presentables. 
-                        element_news="<html><i><font color=blue>"+ title +"</i><br>"+source+"</br><br>"+
-                        newDate+"</br></font></html>";
+                        element_news=decouperNews(title,source,newDate);
                         // ajoute le titre,source et date a la liste des news
                         listeModel_news.addElement(element_news);
 
@@ -310,7 +376,7 @@ public class InterfaceTrendTweets {
 		f.setLocationRelativeTo(null);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.add(global_panel);
-		f.setSize(850, 300);
+		f.setSize(1000, 300);
 	
 
     }
