@@ -11,6 +11,7 @@ import net.billylieurance.azuresearch.AzureSearchResultSet;
  * @author Ayoub El Fatmi
  * @version 0.1, ecrit le 9 Novembre
  * 
+ * 
  * Classe faisant le lien avec la bibliotheque azuresearch Elle permet de 
  * recuperer les news d'une tendance, grace a une methode de 
  * asuresearch

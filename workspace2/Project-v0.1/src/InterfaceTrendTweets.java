@@ -102,6 +102,7 @@ public class InterfaceTrendTweets {
      *                      permet de visualiser de maniere correcte les 
      *                      news
      */
+    
 public static String decouperNews(String title,String source,String date) {
 		
         // Utilise le html pour rendre les news presentables. 
