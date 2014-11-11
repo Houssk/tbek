@@ -18,6 +18,7 @@ import net.billylieurance.azuresearch.AzureSearchResultSet;
  */
 
 public class BingSearch {
+	
 /**
  * @author Houssam Karrache
  * @author Ayoub El Fatmi

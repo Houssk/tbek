@@ -85,6 +85,7 @@ public class InterfaceTrendTweets {
        element_formate += "</br></font></html>";
        return element_formate;
 	}
+    
     /**
      * @author Nader Ben Abdeljelil
      * @author Houssam Karrach
